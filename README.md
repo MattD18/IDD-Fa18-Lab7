@@ -32,4 +32,8 @@ https://youtu.be/8gfoqtx7cH0
 
 **a. Find, install, and try out a node-based library and try to incorporate into your lab. Document your successes and failures (totally okay!) for your writeup. This will help others in class figure out cool new tools and capabilities.**
 
+For part C I used the emailjs library to send myself copies of the picture taken by the video doorbell. The key insight that allowed me to use this package was realizing that I had to create a dummy email for the pi to connect to the gmail server to send my picture. The changes I made using this library can be found in the pictureServer.js file. 
+
 **b. Upload a video of your working modified project**
+
+https://youtu.be/axmpJlWl7P8
