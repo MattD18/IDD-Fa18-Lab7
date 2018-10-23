@@ -28,6 +28,16 @@ var SerialPort = require('serialport'); // serial library
 var Readline = SerialPort.parsers.Readline; // read serial data as lines
 //-- Addition:
 var NodeWebcam = require( "node-webcam" );// load the webcam module
+var email = require('emailjs');
+
+var server = email.server.connect({
+  user: 'daltonpi1234@gmail.com',
+  password: 'Dalton123!',
+  host: 'smtp.gmail.com',
+  ssl: true
+});
+
+
 
 //---------------------- WEBAPP SERVER SETUP ---------------------------------//
 // use express to create the simple webapp
@@ -123,12 +133,35 @@ io.on('connect', function(socket) {
     NodeWebcam.capture('public/'+imageName, opts, function( err, data ) {
     io.emit('newPicture',(imageName+'.jpg')); ///Lastly, the new name is send to the client web browser.
     /// The browser will take this new name and load the picture from the public folder.
-  });
+    var message	= {
+      text: 'Hey howdy',
+      from: 'NodeJS',
+      to: 'mgd67@cornell.edu',
+      cc: '',
+      subject: 'Greetings',
+      attachment:
+      [
+          {data: "<html>i <i>hope</i> this works! here is an image: <img src='cid:my-image' width='100' height ='50'> </html>"},
+          {path:'public/'+imageName+'.jpg', type:"image/jpg", headers:{"Content-ID":"<my-image>"}}
+      ]
+    };
+
+    // send the message and get a callback with an error or details of the message that was sent
+    server.send(message, function(err, message) { console.log(err || message); });
+
+
 
   });
+
+
+
+  });
+
+
   // if you get the 'disconnect' message, say the user disconnected
   socket.on('disconnect', function() {
     console.log('user disconnected');
   });
 });
+
 //----------------------------------------------------------------------------//
